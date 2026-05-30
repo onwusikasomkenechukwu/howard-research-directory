@@ -2,8 +2,263 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body,
-#root {
-  min-height: 100%;
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    background-color: #1c1714;
+    color: #e8dfd4;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-feature-settings: 'kern', 'liga', 'onum';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cormorant Garamond', Garamond, serif;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  ::selection {
+    background: #c9a962;
+    color: #1c1714;
+  }
+}
+
+@layer components {
+  /* ── Atmospheric overlays ─────────────────────────────────────── */
+  .paper-texture {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.92  0 0 0 0 0.87  0 0 0 0 0.78  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      transparent 55%,
+      rgba(28, 23, 20, 0.55) 100%
+    );
+  }
+
+  /* ── Corner flourishes ────────────────────────────────────────── */
+  .corner-flourish {
+    position: relative;
+  }
+  .corner-flourish::before,
+  .corner-flourish::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    opacity: 0.65;
+    transition: opacity 300ms ease;
+  }
+  .corner-flourish::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid #c9a962;
+    border-left: 2px solid #c9a962;
+  }
+  .corner-flourish::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid #c9a962;
+    border-right: 2px solid #c9a962;
+  }
+  .corner-flourish:hover::before,
+  .corner-flourish:hover::after {
+    opacity: 1;
+  }
+
+  .frame-flourish {
+    position: relative;
+  }
+  .frame-flourish::before,
+  .frame-flourish::after {
+    content: '';
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
+  }
+  .frame-flourish::before {
+    top: -2px;
+    left: -2px;
+    border-top: 2px solid #c9a962;
+    border-left: 2px solid #c9a962;
+  }
+  .frame-flourish::after {
+    bottom: -2px;
+    right: -2px;
+    border-bottom: 2px solid #c9a962;
+    border-right: 2px solid #c9a962;
+  }
+
+  /* ── Ornate divider ───────────────────────────────────────────── */
+  .ornate-divider {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      #4a3f35 18%,
+      #c9a962 50%,
+      #4a3f35 82%,
+      transparent 100%
+    );
+  }
+  .ornate-divider::before {
+    content: attr(data-glyph, '✶');
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #c9a962;
+    background: #1c1714;
+    padding: 0 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .ornate-divider-onAlt::before {
+    background: #251e19;
+  }
+
+  /* ── Drop cap ─────────────────────────────────────────────────── */
+  .drop-cap::first-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 3.75rem;
+    line-height: 0.85;
+    float: left;
+    margin: 0.15rem 0.5rem 0 0;
+    color: #c9a962;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+    font-weight: 500;
+  }
+
+  /* ── Engraved text ────────────────────────────────────────────── */
+  .engraved {
+    text-shadow:
+      1px 1px 1px rgba(0, 0, 0, 0.45),
+      -1px -1px 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Brass gradient button ────────────────────────────────────── */
+  .btn-brass {
+    background: linear-gradient(180deg, #d4b872 0%, #c9a962 50%, #b8953f 100%);
+    color: #1c1714;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.35);
+    transition:
+      filter 300ms ease,
+      box-shadow 300ms ease;
+  }
+  .btn-brass:hover {
+    filter: brightness(1.1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+      0 4px 14px rgba(201, 169, 98, 0.35);
+  }
+  .btn-brass:active {
+    box-shadow:
+      inset 0 2px 6px rgba(0, 0, 0, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Wax seal ─────────────────────────────────────────────────── */
+  .wax-seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: #f3e9d8;
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.2),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.35),
+      0 4px 10px rgba(0, 0, 0, 0.45);
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .wax-seal-crimson {
+    background: radial-gradient(circle at 30% 30%, #a8323e 0%, #8b2635 60%, #6b1c28 100%);
+  }
+  .wax-seal-blue {
+    background: radial-gradient(circle at 30% 30%, #1f5a87 0%, #003a63 60%, #00253f 100%);
+  }
+  .wax-seal-brass {
+    background: radial-gradient(circle at 30% 30%, #d4b872 0%, #b8953f 60%, #8a6f2e 100%);
+    color: #1c1714;
+  }
+
+  /* ── Arch top ─────────────────────────────────────────────────── */
+  .arch-top {
+    border-radius: 40% 40% 0 0 / 20% 20% 0 0;
+  }
+
+  /* ── Volume / label typography ────────────────────────────────── */
+  .volume-label {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: #c9a962;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  .label-cinzel {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+
+  /* ── Brass-rule (flanking lines for centered labels) ──────────── */
+  .brass-rule {
+    display: inline-block;
+    height: 1px;
+    width: 56px;
+    background: linear-gradient(90deg, transparent 0%, #c9a962 100%);
+    vertical-align: middle;
+  }
+  .brass-rule-right {
+    background: linear-gradient(90deg, #c9a962 0%, transparent 100%);
+  }
+
+  /* ── Focus visible ring (brass) ───────────────────────────────── */
+  .focus-brass:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #1c1714,
+      0 0 0 4px #c9a962;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

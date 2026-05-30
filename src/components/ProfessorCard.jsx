@@ -1,23 +1,19 @@
 import { useState } from 'react';
 
-function Badge({ label, value, tone = 'slate' }) {
-  const tones = {
-    slate: 'bg-slate-100 text-slate-700',
-    green: 'bg-emerald-100 text-emerald-800',
-    amber: 'bg-amber-100 text-amber-800',
-    red: 'bg-rose-100 text-rose-800',
-    blue: 'bg-sky-100 text-sky-800',
-  };
+function Chip({ label, value }) {
   return (
-    <span className={`inline-flex items-center text-xs px-2 py-0.5 rounded ${tones[tone]}`}>
-      <span className="font-medium mr-1">{label}:</span>
-      {value}
+    <span className="inline-flex items-center gap-1 text-[10px] font-display uppercase tracking-[0.14em] text-academia-fg/85 border border-academia-border bg-academia-bg/40 rounded px-2 py-[3px]">
+      <span className="text-academia-mutedFg">{label}</span>
+      <span className="text-academia-accentLight">{value}</span>
     </span>
   );
 }
 
-const acceptingTone = { Yes: 'green', No: 'red', Seasonal: 'amber' };
-const paidTone = { Paid: 'green', Unpaid: 'slate', Varies: 'amber' };
+const acceptingSealClass = {
+  Yes: 'wax-seal-crimson',
+  Seasonal: 'wax-seal-brass',
+  No: 'wax-seal-blue',
+};
 
 export default function ProfessorCard({ professor }) {
   const [expanded, setExpanded] = useState(false);
@@ -28,97 +24,107 @@ export default function ProfessorCard({ professor }) {
       `The listing for ${professor.name} (ID ${professor.id}) appears outdated.\n\nDetails:\n`,
     )}`;
 
+  const sealClass = acceptingSealClass[professor.acceptingStudents] || 'wax-seal-crimson';
+  const sealLabel =
+    professor.acceptingStudents === 'Yes'
+      ? 'Open'
+      : professor.acceptingStudents === 'Seasonal'
+      ? 'Seasonal'
+      : 'Closed';
+
   return (
-    <article className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col">
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <h3 className="text-base font-semibold text-slate-900">{professor.name}</h3>
-          <p className="text-sm text-slate-600">{professor.department}</p>
+    <article className="corner-flourish relative bg-academia-bgAlt border border-academia-border rounded shadow-none hover:shadow-[0_10px_28px_rgba(0,0,0,0.45)] hover:border-academia-accent/40 transition-all duration-300 flex flex-col">
+      {/* Brass title band */}
+      <div className="relative border-b border-academia-border bg-gradient-to-b from-academia-bgAlt2 to-academia-bgAlt px-5 pt-4 pb-3">
+        <p className="font-display text-[10px] uppercase tracking-[0.28em] text-academia-accent">
+          {professor.department}
+        </p>
+        <h3 className="font-heading text-xl text-academia-fg leading-tight mt-1 pr-16">
+          {professor.name}
+        </h3>
+
+        {/* Wax seal — accepting status */}
+        <div
+          className={`wax-seal ${sealClass} absolute -top-3 right-4 h-12 w-12 text-[9px]`}
+          aria-label={`Accepting students: ${professor.acceptingStudents}`}
+        >
+          {sealLabel}
         </div>
-        <span
-          className={
-            'text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ' +
-            (professor.acceptingStudents === 'Yes'
-              ? 'bg-emerald-100 text-emerald-800'
-              : professor.acceptingStudents === 'Seasonal'
-              ? 'bg-amber-100 text-amber-800'
-              : 'bg-rose-100 text-rose-800')
+      </div>
+
+      <div className="px-5 pt-4 pb-5 flex flex-col flex-1">
+        <p className="font-heading italic text-base text-academia-accentLight">
+          {professor.researchArea}
+        </p>
+
+        <p
+          className="mt-2 font-body text-[15px] text-academia-fg/85 leading-relaxed"
+          style={
+            expanded
+              ? undefined
+              : {
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }
           }
         >
-          {professor.acceptingStudents === 'Yes'
-            ? 'Accepting'
-            : professor.acceptingStudents === 'Seasonal'
-            ? 'Seasonal'
-            : 'Not accepting'}
-        </span>
-      </div>
+          {professor.researchDescription}
+        </p>
+        <button
+          type="button"
+          onClick={() => setExpanded((e) => !e)}
+          className="self-start mt-2 font-display text-[10px] uppercase tracking-[0.2em] text-academia-accent hover:text-academia-accentLight hover:underline underline-offset-4 transition"
+        >
+          {expanded ? '— Show less' : '— Read more'}
+        </button>
 
-      <p className="mt-3 text-sm font-medium text-howard-blue">
-        {professor.researchArea}
-      </p>
-
-      <p
-        className={
-          'mt-1 text-sm text-slate-700 ' + (expanded ? '' : 'line-clamp-3')
-        }
-        style={
-          expanded
-            ? undefined
-            : {
-                display: '-webkit-box',
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }
-        }
-      >
-        {professor.researchDescription}
-      </p>
-      <button
-        type="button"
-        onClick={() => setExpanded((e) => !e)}
-        className="self-start mt-1 text-xs text-howard-blue hover:underline"
-      >
-        {expanded ? 'Show less' : 'Read more'}
-      </button>
-
-      {professor.hiddenPipeline ? (
-        <div className="mt-3 rounded border-l-4 border-amber-400 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-          <span className="font-semibold">Entry path:</span> {professor.hiddenPipeline}
-        </div>
-      ) : null}
-
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        <Badge label="Lab" value={professor.labType} tone="blue" />
-        <Badge label="Accepting" value={professor.acceptingStudents} tone={acceptingTone[professor.acceptingStudents]} />
-        <Badge label="Experience" value={professor.experienceRequired} />
-        <Badge label="International" value={professor.internationalEligible} />
-        <Badge label="Pay" value={professor.paid} tone={paidTone[professor.paid]} />
-        <Badge label="Duration" value={professor.duration} />
-        {professor.classYearAccepted ? (
-          <Badge label="Class year" value={professor.classYearAccepted} />
+        {professor.hiddenPipeline ? (
+          <div className="mt-4 border-l-2 border-academia-accent bg-academia-bg/40 pl-3 pr-3 py-2">
+            <p className="font-display text-[9px] uppercase tracking-[0.28em] text-academia-accent mb-0.5">
+              Entry Path
+            </p>
+            <p className="font-body italic text-sm text-academia-fg/90 leading-snug">
+              {professor.hiddenPipeline}
+            </p>
+          </div>
         ) : null}
-      </div>
 
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-        <a
-          href={`mailto:${professor.email}`}
-          className="text-howard-blue font-medium hover:underline truncate max-w-[60%]"
-        >
-          {professor.email}
-        </a>
-        <span title={`Last updated ${professor.lastUpdated}`}>
-          Updated {professor.lastUpdated}
-        </span>
-      </div>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          <Chip label="Lab" value={professor.labType} />
+          <Chip label="Exp" value={professor.experienceRequired} />
+          <Chip label="Intl" value={professor.internationalEligible} />
+          <Chip label="Pay" value={professor.paid} />
+          <Chip label="Term" value={professor.duration} />
+          {professor.classYearAccepted ? (
+            <Chip label="Year" value={professor.classYearAccepted} />
+          ) : null}
+        </div>
 
-      <div className="mt-2 text-right">
-        <a
-          href={mailtoOutdated}
-          className="text-xs text-slate-500 hover:text-howard-red hover:underline"
-        >
-          Report outdated
-        </a>
+        <div className="mt-4 pt-3 border-t border-academia-border flex items-center justify-between gap-2 text-xs">
+          <a
+            href={`mailto:${professor.email}`}
+            className="font-body italic text-academia-accent hover:text-academia-accentLight hover:underline underline-offset-4 truncate max-w-[62%]"
+          >
+            {professor.email}
+          </a>
+          <span
+            className="font-display text-[9px] uppercase tracking-[0.22em] text-academia-mutedFg whitespace-nowrap"
+            title={`Last updated ${professor.lastUpdated}`}
+          >
+            Updated {professor.lastUpdated}
+          </span>
+        </div>
+
+        <div className="mt-2 text-right">
+          <a
+            href={mailtoOutdated}
+            className="font-display text-[9px] uppercase tracking-[0.22em] text-academia-mutedFg hover:text-academia-accentSecondary hover:underline underline-offset-4 transition"
+          >
+            Report outdated
+          </a>
+        </div>
       </div>
     </article>
   );
