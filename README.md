@@ -1,6 +1,5 @@
-```markdown
 # Multi-Institution Undergraduate Research Directory (Demo)
-
+```
 Single-page React + Vite + Tailwind app for browsing labs accepting undergraduate researchers across multiple institutions. Currently covers **Howard University** and **Stanford University**.
 
 > **Demo with sample data only.** All 40 entries (20 per institution) are fictional placeholders (`Dr. A. Sample`, `Dr. B. Example`, …) with `@sample.howard.edu` / `@sample.stanford.edu` emails. The banner at the top of the app makes this explicit to viewers.
