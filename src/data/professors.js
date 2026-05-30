@@ -16,6 +16,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-04-12',
   },
   {
@@ -32,6 +34,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-02',
   },
   {
@@ -48,6 +52,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Varies',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-20',
   },
   {
@@ -64,6 +70,8 @@ export const professors = [
     internationalEligible: 'Case-by-case',
     paid: 'Unpaid',
     duration: 'Semester',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-03-30',
   },
   {
@@ -80,6 +88,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Multi-year',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-04-25',
   },
   {
@@ -96,6 +106,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Varies',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-15',
   },
   {
@@ -112,6 +124,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Unpaid',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-22',
   },
   {
@@ -128,6 +142,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Junior+',
+    hiddenPipeline: null,
     lastUpdated: '2026-02-18',
   },
   {
@@ -144,6 +160,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Varies',
     duration: 'Year',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-08',
   },
   {
@@ -160,6 +178,8 @@ export const professors = [
     internationalEligible: 'Case-by-case',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-04-01',
   },
   {
@@ -176,6 +196,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-03-12',
   },
   {
@@ -192,6 +214,8 @@ export const professors = [
     internationalEligible: 'Case-by-case',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Junior+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-10',
   },
   {
@@ -208,6 +232,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Unpaid',
     duration: 'Semester',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-04-19',
   },
   {
@@ -224,6 +250,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-25',
   },
   {
@@ -240,6 +268,8 @@ export const professors = [
     internationalEligible: 'No',
     paid: 'Paid',
     duration: 'Multi-year',
+    classYearAccepted: 'Junior+',
+    hiddenPipeline: null,
     lastUpdated: '2026-01-28',
   },
   {
@@ -256,6 +286,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Varies',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-18',
   },
   {
@@ -272,6 +304,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-28',
   },
   {
@@ -288,6 +322,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-04-30',
   },
   {
@@ -304,6 +340,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Unpaid',
     duration: 'Semester',
+    classYearAccepted: 'Freshmen OK',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-05',
   },
   {
@@ -320,6 +358,8 @@ export const professors = [
     internationalEligible: 'Yes',
     paid: 'Paid',
     duration: 'Year',
+    classYearAccepted: 'Sophomore+',
+    hiddenPipeline: null,
     lastUpdated: '2026-05-26',
   },
 ];
@@ -331,4 +371,5 @@ export const filterOptions = {
   experienceRequired: ['None', 'Some', 'Significant'],
   internationalEligible: ['Yes', 'No', 'Case-by-case'],
   paid: ['Paid', 'Unpaid', 'Varies'],
+  classYearAccepted: ['Freshmen OK', 'Sophomore+', 'Junior+'],
 };

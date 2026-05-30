@@ -82,6 +82,12 @@ export default function ProfessorCard({ professor }) {
         {expanded ? 'Show less' : 'Read more'}
       </button>
 
+      {professor.hiddenPipeline ? (
+        <div className="mt-3 rounded border-l-4 border-amber-400 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          <span className="font-semibold">Entry path:</span> {professor.hiddenPipeline}
+        </div>
+      ) : null}
+
       <div className="mt-3 flex flex-wrap gap-1.5">
         <Badge label="Lab" value={professor.labType} tone="blue" />
         <Badge label="Accepting" value={professor.acceptingStudents} tone={acceptingTone[professor.acceptingStudents]} />
@@ -89,6 +95,9 @@ export default function ProfessorCard({ professor }) {
         <Badge label="International" value={professor.internationalEligible} />
         <Badge label="Pay" value={professor.paid} tone={paidTone[professor.paid]} />
         <Badge label="Duration" value={professor.duration} />
+        {professor.classYearAccepted ? (
+          <Badge label="Class year" value={professor.classYearAccepted} />
+        ) : null}
       </div>
 
       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">

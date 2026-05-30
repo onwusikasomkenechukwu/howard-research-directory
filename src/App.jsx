@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { professors } from './data/professors.js';
+import { professors as howardProfessors, filterOptions as howardFilterOptions } from './data/professors.js';
+import { professors as stanfordProfessors, filterOptions as stanfordFilterOptions } from './data/stanfordProfessors.js';
 import Banner from './components/Banner.jsx';
 import SearchBar from './components/SearchBar.jsx';
 import FilterPanel from './components/FilterPanel.jsx';
@@ -12,30 +13,77 @@ const EMPTY_FILTERS = {
   experienceRequired: [],
   internationalEligible: [],
   paid: [],
+  classYearAccepted: [],
+};
+
+const INSTITUTIONS = {
+  howard: {
+    key: 'howard',
+    label: 'Howard',
+    title: 'Howard Undergraduate Research Directory',
+    subtitle: 'Find STEM faculty accepting undergraduate researchers.',
+    professors: howardProfessors,
+    filterOptions: howardFilterOptions,
+    headerClass: 'bg-howard-blue',
+    accentClass: 'bg-howard-blue border-howard-blue',
+    linkClass: 'text-howard-blue',
+    activeTabClass: 'bg-howard-blue text-white border-howard-blue',
+    inactiveTabClass: 'bg-white text-howard-blue border-slate-300 hover:border-howard-blue',
+    resetBtnClass: 'bg-howard-blue text-white',
+  },
+  stanford: {
+    key: 'stanford',
+    label: 'Stanford',
+    title: 'Stanford Undergraduate Research Directory',
+    subtitle: 'Find labs across CS, EE, Cell Biology, MSE, and Physics accepting undergraduate researchers.',
+    professors: stanfordProfessors,
+    filterOptions: stanfordFilterOptions,
+    headerClass: 'bg-[#8C1515]',
+    accentClass: 'bg-[#8C1515] border-[#8C1515]',
+    linkClass: 'text-[#8C1515]',
+    activeTabClass: 'bg-[#8C1515] text-white border-[#8C1515]',
+    inactiveTabClass: 'bg-white text-[#8C1515] border-slate-300 hover:border-[#8C1515]',
+    resetBtnClass: 'bg-[#8C1515] text-white',
+  },
 };
 
 export default function App() {
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState(EMPTY_FILTERS);
+  const [institution, setInstitution] = useState('howard');
+  const [queries, setQueries] = useState({ howard: '', stanford: '' });
+  const [allFilters, setAllFilters] = useState({
+    howard: EMPTY_FILTERS,
+    stanford: EMPTY_FILTERS,
+  });
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
+  const current = INSTITUTIONS[institution];
+  const query = queries[institution];
+  const filters = allFilters[institution];
+
+  const setQuery = (value) => setQueries((prev) => ({ ...prev, [institution]: value }));
+
   const toggleFilter = (field, value) => {
-    setFilters((prev) => {
-      const current = prev[field];
-      const next = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
-      return { ...prev, [field]: next };
+    setAllFilters((prev) => {
+      const currentFilters = prev[institution];
+      const list = currentFilters[field] || [];
+      const next = list.includes(value)
+        ? list.filter((v) => v !== value)
+        : [...list, value];
+      return {
+        ...prev,
+        [institution]: { ...currentFilters, [field]: next },
+      };
     });
   };
 
-  const clearFilters = () => setFilters(EMPTY_FILTERS);
+  const clearFilters = () =>
+    setAllFilters((prev) => ({ ...prev, [institution]: EMPTY_FILTERS }));
 
   const activeCount = Object.values(filters).reduce((n, arr) => n + arr.length, 0);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return professors.filter((p) => {
+    return current.professors.filter((p) => {
       if (q) {
         const hay =
           `${p.name} ${p.department} ${p.researchArea} ${p.researchDescription}`.toLowerCase();
@@ -47,20 +95,44 @@ export default function App() {
       }
       return true;
     });
-  }, [query, filters]);
+  }, [query, filters, current.professors]);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Banner />
 
-      <header className="bg-howard-blue text-white">
+      <div className="bg-slate-100 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2">
+          <span className="text-xs uppercase tracking-wide text-slate-500 mr-1">
+            Institution:
+          </span>
+          {Object.values(INSTITUTIONS).map((inst) => {
+            const active = institution === inst.key;
+            return (
+              <button
+                key={inst.key}
+                type="button"
+                onClick={() => {
+                  setInstitution(inst.key);
+                  setFilterPanelOpen(false);
+                }}
+                aria-pressed={active}
+                className={
+                  'text-sm font-medium px-3 py-1.5 rounded-full border transition ' +
+                  (active ? inst.activeTabClass : inst.inactiveTabClass)
+                }
+              >
+                {inst.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <header className={`${current.headerClass} text-white`}>
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-xl sm:text-2xl font-bold">
-            Howard Undergraduate Research Directory
-          </h1>
-          <p className="text-sm text-white/80 mt-1">
-            Find STEM faculty accepting undergraduate researchers.
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold">{current.title}</h1>
+          <p className="text-sm text-white/80 mt-1">{current.subtitle}</p>
         </div>
       </header>
 
@@ -79,7 +151,7 @@ export default function App() {
             {activeCount > 0 ? ` (${activeCount})` : ''}
           </button>
           <p className="text-sm text-slate-600">
-            Showing {filtered.length} of {professors.length}
+            Showing {filtered.length} of {current.professors.length}
           </p>
         </div>
 
@@ -87,20 +159,23 @@ export default function App() {
           <div className={filterPanelOpen ? 'block' : 'hidden lg:block'}>
             <FilterPanel
               filters={filters}
+              filterOptions={current.filterOptions}
               onToggle={toggleFilter}
               onClear={clearFilters}
               activeCount={activeCount}
+              accentClass={current.accentClass}
+              linkClass={current.linkClass}
             />
           </div>
 
           <div>
             <p className="hidden lg:block text-sm text-slate-600 mb-3">
-              Showing <strong>{filtered.length}</strong> of {professors.length} professors
+              Showing <strong>{filtered.length}</strong> of {current.professors.length} {current.key === 'stanford' ? 'labs' : 'professors'}
             </p>
 
             {filtered.length === 0 ? (
               <div className="bg-white border border-dashed border-slate-300 rounded-lg p-10 text-center">
-                <p className="text-slate-700 font-medium">No professors match your filters.</p>
+                <p className="text-slate-700 font-medium">No {current.key === 'stanford' ? 'labs' : 'professors'} match your filters.</p>
                 <p className="text-sm text-slate-500 mt-1">
                   Try removing a filter or clearing your search.
                 </p>
@@ -110,7 +185,7 @@ export default function App() {
                     setQuery('');
                     clearFilters();
                   }}
-                  className="mt-4 text-sm px-3 py-1.5 rounded bg-howard-blue text-white"
+                  className={`mt-4 text-sm px-3 py-1.5 rounded ${current.resetBtnClass}`}
                 >
                   Reset all
                 </button>
@@ -131,7 +206,7 @@ export default function App() {
           <span>
             Sample data only. Names and emails are fictional placeholders for demo purposes.
           </span>
-          <span>MVP demo — not affiliated with any official Howard University listing.</span>
+          <span>MVP demo — not affiliated with any official Howard or Stanford listing.</span>
         </div>
       </footer>
     </div>
