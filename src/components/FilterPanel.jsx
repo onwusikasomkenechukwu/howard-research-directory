@@ -73,7 +73,7 @@ export default function FilterPanel({
         </button>
       </div>
 
-      <div className="ornate-divider mb-5" data-glyph="❦" aria-hidden="true" />
+      <div className="ornate-divider ornate-divider-onAlt mb-5" data-glyph="❦" aria-hidden="true" />
 
       <div className="space-y-5">
         {fields.map((field, i) => (

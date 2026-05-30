@@ -192,40 +192,48 @@ export default function App() {
           </div>
         </div>
 
-        {/* Header — school-color band as proclamation, brass corner flourishes */}
-        <header
-          key={`hdr-${current.key}`}
-          className="relative border-b border-academia-border fade-in-up"
+        {/* School-color canvas — header + main sit on the institution skin */}
+        <div
+          className="flex-1 flex flex-col"
           style={{
-            background: `linear-gradient(180deg, ${current.colorSoft} 0%, rgba(28,23,20,0) 100%), #1C1714`,
+            backgroundColor: current.color,
+            transition: 'background-color 600ms ease-out',
+            ['--divider-bg']: current.color,
           }}
         >
-          <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 text-center">
-            <div className="frame-flourish mx-auto inline-block px-8 py-6 sm:px-12 sm:py-8">
-              <div className="flex items-center justify-center gap-3 mb-3">
-                <span className="brass-rule" aria-hidden="true" />
-                <span className="volume-label">{current.volume}</span>
-                <span className="brass-rule brass-rule-right" aria-hidden="true" />
+          {/* Header — proclamation plaque framed by brass flourishes */}
+          <header
+            key={`hdr-${current.key}`}
+            className="relative fade-in-up"
+          >
+            <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 text-center">
+              <div className="frame-flourish mx-auto inline-block px-8 py-6 sm:px-12 sm:py-8">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="brass-rule" aria-hidden="true" />
+                  <span className="volume-label" style={{ color: '#D4B872' }}>
+                    {current.volume}
+                  </span>
+                  <span className="brass-rule brass-rule-right" aria-hidden="true" />
+                </div>
+                <h1
+                  className="font-heading text-3xl sm:text-5xl leading-[1.05] engraved"
+                  style={{ color: '#F3E9D8' }}
+                >
+                  {current.title}
+                </h1>
+                <div
+                  className="ornate-divider mx-auto mt-6 w-72 max-w-full"
+                  data-glyph="✶"
+                  aria-hidden="true"
+                />
+                <p className="font-body italic text-academia-fg/90 text-base sm:text-lg mt-5 mx-auto max-w-2xl leading-relaxed drop-cap">
+                  {current.subtitle}
+                </p>
               </div>
-              <h1
-                className="font-heading text-3xl sm:text-5xl text-academia-fg leading-[1.05] engraved"
-                style={{ color: '#F3E9D8' }}
-              >
-                {current.title}
-              </h1>
-              <div
-                className="ornate-divider mx-auto mt-6 w-72 max-w-full"
-                data-glyph="✶"
-                aria-hidden="true"
-              />
-              <p className="font-body italic text-academia-fg/85 text-base sm:text-lg mt-5 mx-auto max-w-2xl leading-relaxed drop-cap">
-                {current.subtitle}
-              </p>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <main className="max-w-7xl w-full mx-auto px-4 py-10 sm:py-14 flex-1">
+          <main className="max-w-7xl w-full mx-auto px-4 py-10 sm:py-14 flex-1 w-full">
           {/* Search */}
           <div className="mb-3">
             <p className="volume-label mb-2">Inquiry</p>
@@ -237,12 +245,12 @@ export default function App() {
             <button
               type="button"
               onClick={() => setFilterPanelOpen((o) => !o)}
-              className="font-display text-xs uppercase tracking-[0.18em] px-3 py-2 rounded border border-academia-accent/60 text-academia-accent bg-academia-bgAlt hover:border-academia-accent transition"
+              className="smooth-chip font-display text-xs uppercase tracking-[0.18em] px-3 py-2 rounded border border-academia-accent/60 text-academia-accentLight bg-academia-bgAlt hover:border-academia-accent"
             >
               {filterPanelOpen ? 'Hide filters' : 'Show filters'}
               {activeCount > 0 ? ` (${activeCount})` : ''}
             </button>
-            <p className="font-body italic text-sm text-academia-mutedFg">
+            <p className="font-body italic text-sm text-academia-fg/85">
               {filtered.length} of {current.professors.length}
             </p>
           </div>
@@ -273,7 +281,7 @@ export default function App() {
                   </p>
                 </div>
                 {activeCount > 0 ? (
-                  <span className="font-display text-[10px] uppercase tracking-[0.22em] text-academia-mutedFg">
+                  <span className="font-display text-[10px] uppercase tracking-[0.22em] text-academia-fg/75">
                     {activeCount} filter{activeCount === 1 ? '' : 's'} applied
                   </span>
                 ) : null}
@@ -320,13 +328,6 @@ export default function App() {
             </div>
           </div>
         </main>
-
-        <div className="max-w-5xl mx-auto w-full px-4">
-          <div
-            className="ornate-divider my-8"
-            data-glyph="✤"
-            aria-hidden="true"
-          />
         </div>
 
         <footer className="border-t border-academia-border bg-academia-bgAlt">

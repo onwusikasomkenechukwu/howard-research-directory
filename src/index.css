@@ -131,14 +131,15 @@
     top: 50%;
     transform: translate(-50%, -50%);
     color: #c9a962;
-    background: #1c1714;
+    background: var(--divider-bg, #1c1714);
     padding: 0 14px;
     font-family: 'Cinzel', serif;
     font-size: 13px;
     line-height: 1;
+    transition: background-color 600ms ease-out;
   }
-  .ornate-divider-onAlt::before {
-    background: #251e19;
+  .ornate-divider-onAlt {
+    --divider-bg: #251e19;
   }
 
   /* ── Drop cap ─────────────────────────────────────────────────── */
