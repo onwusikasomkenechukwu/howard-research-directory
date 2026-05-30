@@ -31,10 +31,10 @@ function FilterGroup({ field, numeral, options, selected, onToggle, activeChipSt
               onClick={() => onToggle(field, opt)}
               aria-pressed={active}
               className={
-                'text-[11px] font-display uppercase tracking-[0.12em] px-2.5 py-1 rounded border transition ' +
+                'smooth-chip text-[11px] font-display uppercase tracking-[0.12em] px-2.5 py-1 rounded border ' +
                 (active
-                  ? 'text-academia-fg engraved'
-                  : 'bg-academia-bg text-academia-fg/85 border-academia-border hover:border-academia-accent hover:text-academia-accentLight')
+                  ? 'text-academia-fg engraved scale-[1.02]'
+                  : 'bg-academia-bg text-academia-fg/85 border-academia-border hover:border-academia-accent hover:text-academia-accentLight hover:-translate-y-[1px]')
               }
               style={active ? activeChipStyle : undefined}
             >

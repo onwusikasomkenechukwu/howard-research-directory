@@ -203,8 +203,8 @@
   .wax-seal-crimson {
     background: radial-gradient(circle at 30% 30%, #a8323e 0%, #8b2635 60%, #6b1c28 100%);
   }
-  .wax-seal-blue {
-    background: radial-gradient(circle at 30% 30%, #1f5a87 0%, #003a63 60%, #00253f 100%);
+  .wax-seal-verdigris {
+    background: radial-gradient(circle at 30% 30%, #6e9c74 0%, #3f7048 55%, #1f4326 100%);
   }
   .wax-seal-brass {
     background: radial-gradient(circle at 30% 30%, #d4b872 0%, #b8953f 60%, #8a6f2e 100%);
@@ -250,6 +250,73 @@
     box-shadow:
       0 0 0 2px #1c1714,
       0 0 0 4px #c9a962;
+  }
+
+  /* ── Motion helpers ───────────────────────────────────────────── */
+  .smooth-all {
+    transition:
+      color 300ms ease-out,
+      background-color 300ms ease-out,
+      border-color 300ms ease-out,
+      box-shadow 400ms ease-out,
+      transform 300ms ease-out,
+      filter 300ms ease-out,
+      opacity 300ms ease-out;
+  }
+  .smooth-chip {
+    transition:
+      color 250ms ease-out,
+      background 250ms ease-out,
+      background-color 250ms ease-out,
+      border-color 250ms ease-out,
+      box-shadow 250ms ease-out,
+      transform 250ms ease-out;
+  }
+  .card-lift {
+    transition:
+      transform 350ms ease-out,
+      box-shadow 450ms ease-out,
+      border-color 350ms ease-out;
+  }
+  .card-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ── Institution fade-in ──────────────────────────────────────── */
+  .fade-in-up {
+    animation: fadeInUp 450ms ease-out both;
+  }
+  .fade-in-soft {
+    animation: fadeInSoft 350ms ease-out both;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeInSoft {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* ── Description reveal (gradient fade at bottom when clamped) ── */
+  .description-fade {
+    pointer-events: none;
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1.6rem;
+    background: linear-gradient(180deg, rgba(37, 30, 25, 0) 0%, #251e19 100%);
+    transition: opacity 400ms ease-out;
   }
 }
 

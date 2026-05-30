@@ -177,10 +177,10 @@ export default function App() {
                     }}
                     aria-pressed={active}
                     className={
-                      'font-display text-xs uppercase tracking-[0.22em] px-4 py-2 rounded border transition ' +
+                      'smooth-chip font-display text-xs uppercase tracking-[0.22em] px-4 py-2 rounded border ' +
                       (active
-                        ? 'engraved'
-                        : 'bg-academia-bgAlt text-academia-accent border-academia-accent/60 hover:border-academia-accent hover:bg-academia-bgAlt2')
+                        ? 'engraved scale-[1.02]'
+                        : 'bg-academia-bgAlt text-academia-accent border-academia-accent/60 hover:border-academia-accent hover:bg-academia-bgAlt2 hover:-translate-y-[1px]')
                     }
                     style={active ? inst.pillActiveStyle : undefined}
                   >
@@ -194,7 +194,8 @@ export default function App() {
 
         {/* Header — school-color band as proclamation, brass corner flourishes */}
         <header
-          className="relative border-b border-academia-border"
+          key={`hdr-${current.key}`}
+          className="relative border-b border-academia-border fade-in-up"
           style={{
             background: `linear-gradient(180deg, ${current.colorSoft} 0%, rgba(28,23,20,0) 100%), #1C1714`,
           }}
@@ -285,7 +286,7 @@ export default function App() {
               />
 
               {filtered.length === 0 ? (
-                <div className="corner-flourish bg-academia-bgAlt border border-academia-border rounded p-12 text-center">
+                <div className="corner-flourish fade-in-soft bg-academia-bgAlt border border-academia-border rounded p-12 text-center">
                   <p className="volume-label mb-3">An Empty Shelf</p>
                   <p className="font-heading text-2xl text-academia-fg">
                     No {noun} match your inquiry.
@@ -300,14 +301,17 @@ export default function App() {
                       setQuery('');
                       clearFilters();
                     }}
-                    className="mt-6 font-display text-xs uppercase tracking-[0.2em] px-6 py-2 rounded engraved transition hover:brightness-110"
+                    className="smooth-all mt-6 font-display text-xs uppercase tracking-[0.2em] px-6 py-2 rounded engraved hover:brightness-110 hover:-translate-y-[1px] active:translate-y-0 active:brightness-95"
                     style={current.resetBtnStyle}
                   >
                     Reset all
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                <div
+                  key={`grid-${current.key}`}
+                  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 fade-in-soft"
+                >
                   {filtered.map((p) => (
                     <ProfessorCard key={p.id} professor={p} />
                   ))}

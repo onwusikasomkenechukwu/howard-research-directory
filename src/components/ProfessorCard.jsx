@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 function Chip({ label, value }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-display uppercase tracking-[0.14em] text-academia-fg/85 border border-academia-border bg-academia-bg/40 rounded px-2 py-[3px]">
+    <span className="smooth-chip inline-flex items-center gap-1 text-[10px] font-display uppercase tracking-[0.14em] text-academia-fg/85 border border-academia-border bg-academia-bg/40 rounded px-2 py-[3px] hover:border-academia-accent/60 hover:text-academia-fg">
       <span className="text-academia-mutedFg">{label}</span>
       <span className="text-academia-accentLight">{value}</span>
     </span>
@@ -10,9 +10,9 @@ function Chip({ label, value }) {
 }
 
 const acceptingSealClass = {
-  Yes: 'wax-seal-crimson',
+  Yes: 'wax-seal-verdigris',
   Seasonal: 'wax-seal-brass',
-  No: 'wax-seal-blue',
+  No: 'wax-seal-crimson',
 };
 
 export default function ProfessorCard({ professor }) {
@@ -33,7 +33,7 @@ export default function ProfessorCard({ professor }) {
       : 'Closed';
 
   return (
-    <article className="corner-flourish relative bg-academia-bgAlt border border-academia-border rounded shadow-none hover:shadow-[0_10px_28px_rgba(0,0,0,0.45)] hover:border-academia-accent/40 transition-all duration-300 flex flex-col">
+    <article className="group corner-flourish card-lift relative bg-academia-bgAlt border border-academia-border rounded shadow-none hover:shadow-[0_14px_32px_rgba(0,0,0,0.5)] hover:border-academia-accent/50 flex flex-col will-change-transform">
       {/* Brass title band */}
       <div className="relative border-b border-academia-border bg-gradient-to-b from-academia-bgAlt2 to-academia-bgAlt px-5 pt-4 pb-3">
         <p className="font-display text-[10px] uppercase tracking-[0.28em] text-academia-accent">
@@ -45,7 +45,7 @@ export default function ProfessorCard({ professor }) {
 
         {/* Wax seal — accepting status */}
         <div
-          className={`wax-seal ${sealClass} absolute -top-3 right-4 h-12 w-12 text-[9px]`}
+          className={`wax-seal ${sealClass} smooth-all absolute -top-3 right-4 h-12 w-12 text-[9px] group-hover:scale-[1.04]`}
           aria-label={`Accepting students: ${professor.acceptingStudents}`}
         >
           {sealLabel}
@@ -57,25 +57,26 @@ export default function ProfessorCard({ professor }) {
           {professor.researchArea}
         </p>
 
-        <p
-          className="mt-2 font-body text-[15px] text-academia-fg/85 leading-relaxed"
-          style={
-            expanded
-              ? undefined
-              : {
-                  display: '-webkit-box',
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }
-          }
-        >
-          {professor.researchDescription}
-        </p>
+        <div className="relative mt-2">
+          <p
+            className="font-body text-[15px] text-academia-fg/85 leading-relaxed overflow-hidden"
+            style={{
+              maxHeight: expanded ? '40rem' : '4.6rem',
+              transition: 'max-height 500ms ease-out',
+            }}
+          >
+            {professor.researchDescription}
+          </p>
+          <div
+            className="description-fade"
+            style={{ opacity: expanded ? 0 : 1 }}
+            aria-hidden="true"
+          />
+        </div>
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
-          className="self-start mt-2 font-display text-[10px] uppercase tracking-[0.2em] text-academia-accent hover:text-academia-accentLight hover:underline underline-offset-4 transition"
+          className="smooth-all self-start mt-2 font-display text-[10px] uppercase tracking-[0.2em] text-academia-accent hover:text-academia-accentLight hover:tracking-[0.24em] hover:underline underline-offset-4"
         >
           {expanded ? '— Show less' : '— Read more'}
         </button>
